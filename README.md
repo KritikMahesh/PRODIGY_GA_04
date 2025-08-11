@@ -9,15 +9,15 @@
 This repository contains an implementation of **Image-to-Image Translation** using **Conditional Generative Adversarial Networks (cGANs)** that converts grayscale images to colorized versions. The project uses the **TensorFlow Flowers dataset** and demonstrates how cGANs can learn to add realistic colors to black and white images.
 
 ## 📋 Table of Contents
-- [About](#about)
-- [Features](#features)
-- [Installation](#installation)
-- [Dataset](#dataset)
-- [Usage](#usage)
-- [Model Architecture](#model-architecture)
-- [Training](#training)
-- [Results](#results)
-- [How It Works](#how-it-works)
+- [About](#-about)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Dataset](#-dataset)
+- [Usage](#-usage)
+- [Model Architecture](#-model-architecture)
+- [Training](#-training)
+- [Results](#-results)
+- [How It Works](#-how-it-works)
 
 ## 🎯 About
 
