@@ -89,7 +89,7 @@ BATCH_SIZE = 4          # Batch size for training
 IMAGE_SIZE = 256        # Input/output image dimensions
 LAMBDA = 100            # L1 loss weight (reconstruction)
 LEARNING_RATE = 2e-4    # Adam optimizer learning rate
-BETA_1 = 0.5           # Adam optimizer beta1 parameter
+BETA_1 = 0.5            # Adam optimizer beta1 parameter
 ```
 
 ## 🏗️ Model Architecture
@@ -101,52 +101,17 @@ BETA_1 = 0.5           # Adam optimizer beta1 parameter
 - **Layers**: 8 downsampling + 7 upsampling layers
 - **Skip Connections**: Preserve fine details during upsampling
 
-```python
-# Generator structure
-down_stack = [
-    downsample(64, 4, apply_batchnorm=False),   # 128x128x64
-    downsample(128, 4),                         # 64x64x128
-    downsample(256, 4),                         # 32x32x256
-    downsample(512, 4),                         # 16x16x512
-    # ... more layers
-]
-
-up_stack = [
-    upsample(512, 4, apply_dropout=True),       # 2x2x1024
-    upsample(512, 4, apply_dropout=True),       # 4x4x1024
-    # ... more layers with skip connections
-]
-```
-
 ### 🛡️ Discriminator (PatchGAN)
 - **Architecture**: Convolutional classifier
 - **Input**: Concatenated input + target images (256x256x6)
 - **Output**: 30x30x1 patch predictions
 - **Purpose**: Evaluates if each image patch looks realistic
 
-```python
-# Discriminator evaluates image pairs
-x = layers.concatenate([input_image, target_image])
-# ... convolutional layers
-# Output: 30x30x1 (real/fake for each patch)
-```
-
 ## 🎯 Training
 
 ### Loss Functions
 1. **Generator Loss** = Adversarial Loss + L1 Reconstruction Loss
-   ```python
-   gan_loss = loss_object(tf.ones_like(disc_output), disc_output)
-   l1_loss = tf.reduce_mean(tf.abs(target - generated))
-   total_loss = gan_loss + (100 * l1_loss)  # L1 weighted by 100
-   ```
-
 2. **Discriminator Loss** = Real Loss + Fake Loss
-   ```python
-   real_loss = loss_object(tf.ones_like(real_output), real_output)
-   fake_loss = loss_object(tf.zeros_like(fake_output), fake_output)
-   total_loss = real_loss + fake_loss
-   ```
 
 ### Training Process
 - **Optimizer**: Adam (lr=2e-4, beta1=0.5)
@@ -161,31 +126,23 @@ The model generates colorized images showing:
 - **Ground Truth**: Original colored flower  
 - **Predicted Image**: AI-generated colorized version
 
-### Expected Performance
-- **Training Time**: ~5-10 minutes total (3 epochs)
-- **Generator Loss**: Decreases from ~100 to ~20-30
-- **Discriminator Loss**: Stabilizes around 0.5-1.5
-- **Visual Quality**: Realistic colors with good detail preservation
-
 ## 🔬 How It Works
 
-### 🎨 **Generator Process**
+### 🎨 Generator Process
 1. **Input**: Takes grayscale flower image (256x256x3)
 2. **Encoding**: Downsamples through 8 convolutional layers
 3. **Bottleneck**: Compressed representation (1x1x512)
 4. **Decoding**: Upsamples through 7 layers with skip connections
 5. **Output**: Colorized image (256x256x3) with tanh activation
 
-### 🛡️ **Discriminator Process**
+### 🛡️ Discriminator Process
 1. **Input**: Concatenates grayscale + color image pair
 2. **Evaluation**: Processes through convolutional layers
 3. **Output**: 30x30 grid of real/fake predictions (PatchGAN)
-4. **Training**: Learns to distinguish real vs generated pairs
 
-### ⚔️ **Adversarial Training**
+### ⚔️ Adversarial Training
 - **Generator Goal**: Fool discriminator + match target colors
 - **Discriminator Goal**: Detect fake colorized images
-- **Balance**: Both networks improve together over iterations
 - **Result**: Generator learns realistic colorization patterns
 
 ## 🔧 Customization
@@ -202,5 +159,3 @@ LAMBDA = 50           # Reduce L1 weight for more creative colors
 # Replace tf_flowers with other datasets
 dataset, info = tfds.load('your_dataset', with_info=True, as_supervised=True)
 ```
-
----
