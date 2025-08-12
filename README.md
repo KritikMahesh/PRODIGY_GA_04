@@ -84,7 +84,7 @@ def preprocess(image):
 
 ### Key Parameters
 ```python
-EPOCHS = 3              # Number of training epochs
+EPOCHS = 30              # Number of training epochs
 BATCH_SIZE = 4          # Batch size for training
 IMAGE_SIZE = 256        # Input/output image dimensions
 LAMBDA = 100            # L1 loss weight (reconstruction)
