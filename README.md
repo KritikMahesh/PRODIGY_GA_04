@@ -37,6 +37,7 @@ The implementation uses a **U-Net Generator** with skip connections and a **Patc
 - ⚡ **Fast Training** - Optimized for quick experimentation (3 epochs)
 - 🔧 **Customizable Parameters** - Easy to modify batch size, epochs, and loss weights
 
+
 ## 🛠️ Installation
 
 **Option 1: Google Colab (Recommended)**
